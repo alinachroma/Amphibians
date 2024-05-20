@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 data class AmphibiansUiState(
+    val amphibiansList : List<Amphibian> = emptyList()
 )
 class AmphibiansViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(AmphibiansUiState())
