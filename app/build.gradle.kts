@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.retrofit)
     implementation(libs.coil)
+    implementation(libs.compose.preview.renderer)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
