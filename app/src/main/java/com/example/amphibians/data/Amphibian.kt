@@ -1,6 +1,13 @@
 package com.example.amphibians.data
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Amphibian (
-    val amphibianName: String? = "",
-    val amphibianImageId: Int? = null,
-    val amphibianDescription: String = ""
+    val name: String,
+    val type: String,
+    val description: String,
+    @SerialName (value = "img_src")
+    val imgSrc: String
 )
