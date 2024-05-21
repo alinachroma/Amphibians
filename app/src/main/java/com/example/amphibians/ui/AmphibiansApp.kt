@@ -21,6 +21,7 @@ import com.example.amphibians.ui.theme.AmphibiansTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.amphibians.data.Amphibian
 
 @Composable
 fun AmphibiansApp(
@@ -62,17 +63,18 @@ fun AmphibianCardsList(
 
 @Composable
 fun AmphibianCard(
+    amphibian: Amphibian,
     modifier: Modifier = Modifier
 ) {
     Column {
-        Text(text = "amphibianName")
+        Text(text = amphibian.name)
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current).build(),
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = modifier.fillMaxWidth()
         )
-        Text(text = "text")
+        Text(text = amphibian.description)
     }
 }
 
@@ -88,7 +90,14 @@ fun AmphibiansAppPreview() {
 @Composable
 fun AmphibianCardPreview() {
     AmphibiansTheme {
-        AmphibianCard()
+        AmphibianCard(
+            Amphibian(
+                name = "Amarilis",
+                type = "Alvina",
+                description = "Samnang",
+                imgSrc = "Carlisa"
+            )
+        )
     }
 }
 
