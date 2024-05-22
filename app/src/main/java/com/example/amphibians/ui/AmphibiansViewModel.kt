@@ -1,15 +1,16 @@
 package com.example.amphibians.ui
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.amphibians.data.Amphibian
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-
-data class AmphibiansUiState(
-    val amphibiansList : List<Amphibian> = emptyList()
-)
-class AmphibiansViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(AmphibiansUiState())
-    val uiState: StateFlow<AmphibiansUiState> = _uiState.asStateFlow()
+sealed class AmphibiansUiState {
+    data class Success(val amphibiansList: List<Amphibian>) : AmphibiansUiState()
+    object Loading : AmphibiansUiState()
+    object Error : AmphibiansUiState()
 }
+
+class AmphibiansViewModel : ViewModel() {
+    var uiState: AmphibiansUiState by mutableStateOf(AmphibiansUiState.Loading)
+        private set
