@@ -1,5 +1,6 @@
 package com.example.amphibians.network
 
+import com.example.amphibians.data.Amphibian
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
@@ -12,7 +13,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 interface AmphibiansApiService {
     @GET("amphibians")
-    fun getAmphibiansData() : String
+    suspend fun getAmphibiansData() : List<Amphibian>
 }
 
 object AmphibiansApi {
