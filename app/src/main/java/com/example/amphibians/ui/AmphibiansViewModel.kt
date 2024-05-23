@@ -19,6 +19,10 @@ class AmphibiansViewModel : ViewModel() {
     var uiState: AmphibiansUiState by mutableStateOf(AmphibiansUiState.Loading)
         private set
 
+    init {
+        getAmphibiansData()
+    }
+
     private fun getAmphibiansData() {
         viewModelScope.launch {
             val result = AmphibiansApi.retrofitService.getAmphibiansData()
