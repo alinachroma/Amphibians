@@ -9,10 +9,10 @@ import com.example.amphibians.data.Amphibian
 import com.example.amphibians.network.AmphibiansApi
 import kotlinx.coroutines.launch
 
-sealed class AmphibiansUiState {
-    data class Success(val amphibiansList: List<Amphibian>) : AmphibiansUiState()
-    object Loading : AmphibiansUiState()
-    object Error : AmphibiansUiState()
+sealed interface AmphibiansUiState {
+    data class Success(val amphibiansList: List<Amphibian>) : AmphibiansUiState
+    object Loading : AmphibiansUiState
+    object Error : AmphibiansUiState
 }
 
 class AmphibiansViewModel : ViewModel() {
