@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.amphibians.data.Amphibian
 import com.example.amphibians.network.AmphibiansApi
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 sealed interface AmphibiansUiState {
     data class Success(val amphibiansList: List<Amphibian>) : AmphibiansUiState
@@ -25,10 +26,12 @@ class AmphibiansViewModel : ViewModel() {
 
     private fun getAmphibiansData() {
         viewModelScope.launch {
-            val result = AmphibiansApi.retrofitService.getAmphibiansData()
-            uiState = AmphibiansUiState.Loading
+            uiState = try {
+                val result = AmphibiansApi.retrofitService.getAmphibiansData()
+                AmphibiansUiState.Success(result)
+            } catch (e: IOException) {
+                AmphibiansUiState.Error
+            }
         }
     }
-
-
 }
