@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.amphibians.data.Amphibian
+import com.example.amphibians.data.NetworkAmphibiansRepository
 import com.example.amphibians.network.AmphibiansApi
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -27,7 +28,8 @@ class AmphibiansViewModel : ViewModel() {
     private fun getAmphibiansData() {
         viewModelScope.launch {
             uiState = try {
-                val result = AmphibiansApi.retrofitService.getAmphibiansData()
+                val amphibianRepository = NetworkAmphibiansRepository()
+                val result = amphibianRepository.getAmphibiansData()
                 AmphibiansUiState.Success(result)
             } catch (e: IOException) {
                 AmphibiansUiState.Error
