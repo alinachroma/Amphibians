@@ -62,9 +62,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.retrofit)
-    implementation(libs.converter.scalars)
     implementation(libs.coil)
     implementation(libs.kotlinx.serialization)
+    implementation(libs.kotlinx.serialization.converter)
+    implementation(libs.okhttp)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
