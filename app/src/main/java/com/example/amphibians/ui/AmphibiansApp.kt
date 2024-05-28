@@ -1,15 +1,18 @@
 package com.example.amphibians.ui
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -19,21 +22,49 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.amphibians.ui.theme.AmphibiansTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.amphibians.ui.AmphibiansUiState.Success
+import com.example.amphibians.ui.AmphibiansUiState.Loading
+import com.example.amphibians.ui.AmphibiansUiState.Error
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.amphibians.R
 import com.example.amphibians.data.Amphibian
 
 @Composable
 fun AmphibiansApp(
     viewModel: AmphibiansViewModel = viewModel(),
+    uiState: AmphibiansUiState = viewModel.uiState,
     modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        topBar = { TopBar(topAppBarTitle = "") },
-        modifier = modifier,
-        content = { paddingValues ->
-            HomeScreen(modifier = Modifier.padding(paddingValues))
+
+    when (uiState) {
+        is Loading -> {
+            LoadingScreen(modifier = Modifier.fillMaxWidth())
         }
+
+        is Success -> {
+            HomeScreen(
+                amphibiansList = uiState.amphibiansList,
+                modifier = modifier.fillMaxWidth()
+            )
+        }
+
+        is Error -> {
+            ErrorScreen(modifier = Modifier.fillMaxWidth())
+        }
+    }
+    /* Scaffold(
+         topBar = { TopBar(topAppBarTitle = "") },
+         modifier = modifier,
+         content = { paddingValues ->
+             HomeScreen(
+                 amphibiansUiState = viewModel.uiState,
+                 modifier = Modifier.padding(paddingValues)
+             )
+         }
+     )*/
+}
+
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Image(
@@ -66,18 +97,30 @@ fun TopBar(
 }
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
-    AmphibianCardsList()
+fun HomeScreen(
+    amphibiansList: List<Amphibian>,
+    modifier: Modifier = Modifier
+) {
+    AmphibianCardsList(
+        amphibiansList = amphibiansList,
+        modifier = modifier
+    )
 }
 
 @Composable
 fun AmphibianCardsList(
+    amphibiansList: List<Amphibian>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(5.dp),
     ) {
+        items(amphibiansList) { amphibian ->
+            AmphibianCard(
+                amphibian = amphibian
+            )
+        }
     }
 }
 
@@ -102,7 +145,7 @@ fun AmphibianCard(
 @Composable
 fun AmphibiansAppPreview() {
     AmphibiansTheme {
-        AmphibiansApp()
+        AmphibiansApp(uiState = Loading)
     }
 }
 
@@ -125,6 +168,22 @@ fun AmphibianCardPreview() {
 @Composable
 fun AmphibianCardsListPreview() {
     AmphibiansTheme {
-        AmphibianCardsList()
+        AmphibianCardsList(
+            amphibiansList = listOf(
+                Amphibian(
+                    name = "Ambhibian_1",
+                    type = "Type_1",
+                    description = "Description_1",
+                    imgSrc = "Img_1"
+                ),
+                Amphibian(
+                    name = "Amphibian_2",
+                    type = "Type_2",
+                    description = "Description_2",
+                    imgSrc = "Img_2"
+                )
+            ),
+            modifier = Modifier
+        )
     }
 }
