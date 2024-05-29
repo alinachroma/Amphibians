@@ -76,16 +76,6 @@ fun HomeScreen(
             ErrorScreen(modifier = Modifier.fillMaxWidth())
         }
     }
-    /* Scaffold(
-         topBar = { TopBar(topAppBarTitle = "") },
-         modifier = modifier,
-         content = { paddingValues ->
-             HomeScreen(
-                 amphibiansUiState = viewModel.uiState,
-                 modifier = Modifier.padding(paddingValues)
-             )
-         }
-     )*/
 }
 
 @Composable
