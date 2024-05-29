@@ -4,16 +4,21 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -30,21 +35,39 @@ import coil.request.ImageRequest
 import com.example.amphibians.R
 import com.example.amphibians.data.Amphibian
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AmphibiansApp(
-    viewModel: AmphibiansViewModel = viewModel(),
-    uiState: AmphibiansUiState = viewModel.uiState,
+fun AmphibiansApp() {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+    ) { paddingValues ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            val amphibiansViewModel: AmphibiansViewModel =
+                viewModel(factory = AmphibiansViewModel.Factory)
+            HomeScreen(amphibiansUiState = amphibiansViewModel.uiState)
+        }
+    }
+}
+
+@Composable
+fun HomeScreen(
+    amphibiansUiState: AmphibiansUiState,
     modifier: Modifier = Modifier
 ) {
 
-    when (uiState) {
+    when (amphibiansUiState) {
         is Loading -> {
             LoadingScreen(modifier = Modifier.fillMaxWidth())
         }
 
         is Success -> {
-            HomeScreen(
-                amphibiansList = uiState.amphibiansList,
+            ResultScreen(
+                amphibiansList = amphibiansUiState.amphibiansList,
                 modifier = modifier.fillMaxWidth()
             )
         }
@@ -97,7 +120,7 @@ fun TopBar(
 }
 
 @Composable
-fun HomeScreen(
+fun ResultScreen(
     amphibiansList: List<Amphibian>,
     modifier: Modifier = Modifier
 ) {
@@ -145,7 +168,7 @@ fun AmphibianCard(
 @Composable
 fun AmphibiansAppPreview() {
     AmphibiansTheme {
-        AmphibiansApp(uiState = Loading)
+        HomeScreen(amphibiansUiState = Loading)
     }
 }
 
