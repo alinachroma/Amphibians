@@ -27,8 +27,9 @@ class AmphibiansViewModel(private val amphibiansRepository: AmphibiansRepository
 
     private fun getAmphibiansData() {
         viewModelScope.launch {
+            uiState = AmphibiansUiState.Loading
             uiState = try {
-                val result = amphibianRepository.getAmphibiansData()
+                val result = amphibiansRepository.getAmphibiansData()
                 AmphibiansUiState.Success(result)
             } catch (e: IOException) {
                 AmphibiansUiState.Error
