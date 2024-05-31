@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,7 +17,10 @@ import com.example.amphibians.ui.theme.AmphibiansTheme
 import com.example.amphibians.utils.ThemePreviews
 
 @Composable
-fun ErrorScreen(modifier: Modifier = Modifier) {
+fun ErrorScreen(
+    modifier: Modifier = Modifier,
+    retryAction: () -> Unit
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -27,6 +31,9 @@ fun ErrorScreen(modifier: Modifier = Modifier) {
             contentDescription = ""
         )
         Text(text = stringResource(R.string.error), modifier = Modifier.padding(16.dp))
+        Button(onClick = retryAction) {
+            Text(stringResource(R.string.retry))
+        }
     }
 }
 
@@ -34,6 +41,6 @@ fun ErrorScreen(modifier: Modifier = Modifier) {
 @Composable
 fun ErrorScreenPreview() {
     AmphibiansTheme {
-        ErrorScreen()
+        ErrorScreen(retryAction = {})
     }
 }
