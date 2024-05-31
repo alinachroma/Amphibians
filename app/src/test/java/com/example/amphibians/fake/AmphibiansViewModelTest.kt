@@ -11,6 +11,8 @@ import org.junit.Test
 
 class AmphibiansViewModelTest {
 
+    @get:Rule
+    val testDispatcher = TestDispatcherRule()
 
     @Test
     fun amphibiansViewModel_getAmphibiansData_verifyAmphibiansUiStateSuccess() =
