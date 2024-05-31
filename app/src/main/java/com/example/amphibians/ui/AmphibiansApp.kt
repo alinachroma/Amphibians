@@ -35,6 +35,7 @@ fun AmphibiansApp() {
                 viewModel(factory = AmphibiansViewModel.Factory)
             HomeScreen(
                 amphibiansUiState = amphibiansViewModel.uiState,
+                retryAction = amphibiansViewModel::getAmphibiansData,
                 modifier = Modifier,
                 contentPadding = it
             )
@@ -57,7 +58,8 @@ fun AmphibiansAppPreview() {
         HomeScreen(
             amphibiansUiState = Success(
                 amphibiansList = mockData
-            )
+            ),
+            retryAction = {}
         )
     }
 }

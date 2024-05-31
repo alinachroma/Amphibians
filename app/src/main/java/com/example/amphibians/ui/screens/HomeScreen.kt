@@ -13,6 +13,7 @@ import com.example.amphibians.ui.AmphibiansUiState
 @Composable
 fun HomeScreen(
     amphibiansUiState: AmphibiansUiState,
+    retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
@@ -36,7 +37,10 @@ fun HomeScreen(
         }
 
         is AmphibiansUiState.Error -> {
-            ErrorScreen(modifier = Modifier.fillMaxWidth())
+            ErrorScreen(
+                modifier = Modifier.fillMaxWidth(),
+                retryAction = retryAction
+            )
         }
     }
 }
